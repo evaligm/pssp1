@@ -1,9 +1,9 @@
 node {
     checkout scm
 
-    docker.withRegistry('https://registry.hub.docker.com', 'evaligm') {
+    docker.withRegistry('https://registry.hub.docker.com', 'Dochub') {
 
-        def customImage = docker.build("evaligm/psspimage1")
+        def customImage = docker.build("evaligm/psspimage2")
 
         /* Push the container to the custom Registry */
         customImage.push()
