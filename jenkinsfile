@@ -1,0 +1,11 @@
+node {
+    checkout scm
+
+    docker.withRegistry('https://registry.hub.docker.com', 'evaligm') {
+
+        def customImage = docker.build("evaligm/psspimage1")
+
+        /* Push the container to the custom Registry */
+        customImage.push()
+    }
+}
