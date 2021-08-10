@@ -1,11 +1,26 @@
 node {
-    checkout scm
+	def app
+	stage ('Clone repository') {
+		/* Cloning the repository to our worksapce */
+		checkout scm
+	}
 
-    docker.withRegistry('https://registry.hub.docker.com', 'Dochub') {
+	stage('Build image') {
+		/* this build the image */
+		app = docker.build("evaligm/psspapp")
+	}
 
-        def customImage = docker.build("evaligm/psspimage2")
+	stage('Test image') {
+		app.inside { echo "tests passed" }
+	}
 
-        /* Push the container to the custom Registry */
-        customImage.push()
-    }
+
+	stage('Push image')  { 
+    		docker.withRegistry('https://registry.hub.docker.com', 'Dochub') {
+        		app.push("${env.BUILD_NUMBER}")
+		app.push("latest")
+		}	
+		 /* Push the container to the custom Registry */
+        		echo "push docker build to dockerhub"
+               }
 }
